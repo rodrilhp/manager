@@ -38,7 +38,7 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 text-gray-900 min-h-screen flex flex-col`}
       >
         <TopNav username={session?.userId as string | undefined} />
-        <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col">
+        <main className="flex-1 w-full max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col">
           {children}
         </main>
       </body>
