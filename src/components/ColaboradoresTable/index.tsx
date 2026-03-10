@@ -45,7 +45,7 @@ export function ColaboradoresTable<TData, TValue>({
         },
         initialState: {
             pagination: {
-                pageSize: showPagination ? 10 : 10000, // If pagination disabled, show all (effectively)
+                pageSize: showPagination ? 20 : 10000,
             },
         },
     })
@@ -77,7 +77,7 @@ export function ColaboradoresTable<TData, TValue>({
                                         return (
                                             <th
                                                 key={header.id}
-                                                className="px-6 py-4 font-medium"
+                                                className="px-6 font-medium"
                                             >
                                                 {header.isPlaceholder ? null : (
                                                     <div
@@ -114,7 +114,7 @@ export function ColaboradoresTable<TData, TValue>({
                                         {row.getVisibleCells().map((cell) => (
                                             <td
                                                 key={cell.id}
-                                                className="px-6 py-4 whitespace-nowrap text-neutral-700"
+                                                className="px-6 py-2 whitespace-nowrap text-neutral-700"
                                             >
                                                 {flexRender(
                                                     cell.column.columnDef.cell,

@@ -15,15 +15,8 @@ import { Colaborador } from "@/components/ColaboradoresTable/columns"
 import { format, differenceInDays } from "date-fns"
 import { ColumnDef } from "@tanstack/react-table"
 
-// Converts "JOÃO SILVA" → "João Silva"
-function toTitleCase(str: string | null | undefined): string {
-    if (!str) return "-"
-    return str
-        .toLowerCase()
-        .replace(/(?:^|\s|-)\S/g, (char) => char.toUpperCase())
-}
+import { toTitleCase } from "@/lib/utils"
 
-// Columns specific to this view
 const contratadosColumns: ColumnDef<Colaborador>[] = [
     {
         accessorKey: "nome",
@@ -106,7 +99,6 @@ const contratadosColumns: ColumnDef<Colaborador>[] = [
     },
 ]
 
-// Helper: get unique values for a column
 function getUniqueValues<T>(data: T[], key: keyof T): string[] {
     const set = new Set<string>()
     data.forEach((row) => {
@@ -135,11 +127,9 @@ export function ContratadosTable({ data }: Props) {
         state: { sorting, columnFilters },
     })
 
-    // Pre-compute unique values for dropdown filters
     const uniqueCargos = getUniqueValues(data, "cargo")
     const uniqueProdutos = getUniqueValues(data, "produto")
 
-    // Helper to get/set a single column filter value
     const getFilter = (id: string) =>
         (columnFilters.find((f) => f.id === id)?.value as string) ?? ""
 

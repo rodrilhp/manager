@@ -25,13 +25,23 @@ export default function TopNav({ username }: { username?: string | null }) {
         setIsDropdownOpen(false);
     }, [pathname]);
 
-    const tabs = [
+    const isAdminMode = pathname.startsWith("/configuracoes")
+
+    const normalTabs = [
         { name: "Home", href: "/" },
         { name: "Contratados", href: "/contratados" },
         { name: "Financeiro", href: "/financeiro" },
         { name: "Performance", href: "/performance" },
         { name: "Organograma", href: "/organograma" },
-    ];
+    ]
+
+    const adminTabs = [
+        { name: "Home", href: "/" },
+        { name: "Colaboradores", href: "/configuracoes" },
+        { name: "Usuários", href: "/configuracoes/usuarios" },
+    ]
+
+    const tabs = isAdminMode ? adminTabs : normalTabs;
 
     return (
         <nav className="w-full bg-white border-b border-gray-200 sticky top-0 z-50">
@@ -88,26 +98,30 @@ export default function TopNav({ username }: { username?: string | null }) {
             </div>
 
             {/* Tabs Section */}
-            <div className="border-t border-gray-100 bg-white">
+            <div className={`border-t border-gray-100 bg-white`}>
                 <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex space-x-6 overflow-x-auto scrollbar-hide">
+                    <div className="flex items-center gap-0 overflow-x-auto scrollbar-hide">
                         {tabs.map((tab) => {
-                            const isActive = pathname === tab.href;
+                            const isActive = tab.href === "/configuracoes"
+                                ? pathname === tab.href
+                                : pathname === tab.href || (tab.href !== "/" && pathname.startsWith(tab.href))
                             return (
                                 <Link
                                     key={tab.name}
                                     href={tab.href}
                                     className={`
-                                        py-3 text-sm font-medium transition-colors whitespace-nowrap border-b-2
+                                        mr-6 py-3 text-sm font-medium transition-colors whitespace-nowrap border-b-2
                                         ${isActive
-                                            ? "border-blue-500 text-blue-600"
+                                            ? isAdminMode
+                                                ? "border-blue-600 text-blue-700"
+                                                : "border-blue-500 text-blue-600"
                                             : "border-transparent text-gray-500 hover:text-gray-900 hover:border-gray-300"
                                         }
                                     `}
                                 >
                                     {tab.name}
                                 </Link>
-                            );
+                            )
                         })}
                     </div>
                 </div>

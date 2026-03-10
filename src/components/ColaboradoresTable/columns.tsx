@@ -2,6 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import { format, differenceInDays } from "date-fns"
+import { toTitleCase } from "@/lib/utils"
 
 export type Colaborador = {
     id: string
@@ -29,14 +30,17 @@ export const columns: ColumnDef<Colaborador>[] = [
     {
         accessorKey: "nome",
         header: "Nome",
+        cell: ({ row }) => toTitleCase(row.getValue("nome")),
     },
     {
         accessorKey: "cargo",
         header: "Cargo",
+        cell: ({ row }) => toTitleCase(row.getValue("cargo")),
     },
     {
         accessorKey: "produto",
         header: "Produto",
+        cell: ({ row }) => toTitleCase(row.getValue("produto")),
     },
     {
         accessorKey: "e_mail",
@@ -45,10 +49,12 @@ export const columns: ColumnDef<Colaborador>[] = [
     {
         accessorKey: "senioridade",
         header: "Senioridade",
+        cell: ({ row }) => toTitleCase(row.getValue("senioridade")),
     },
     {
         accessorKey: "foco",
         header: "Foco",
+        cell: ({ row }) => toTitleCase(row.getValue("foco")),
     },
     {
         accessorKey: "estado",
