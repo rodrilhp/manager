@@ -1,16 +1,6 @@
-import PageHeader from "@/components/PageHeader";
-
 export default function PerformancePage() {
     return (
         <div className="w-full animate-fade-in-up">
-            <PageHeader
-                title="Análise de Performance"
-                breadcrumbs={[
-                    { name: "Home", href: "/" },
-                    { name: "Performance" }
-                ]}
-            />
-
             <div className="mt-6 p-12 bg-white border border-gray-200 rounded-xl shadow-sm flex flex-col items-center justify-center text-center">
                 <div className="w-12 h-12 bg-gray-50 rounded-lg flex items-center justify-center border border-gray-100 mb-4 shadow-sm">
                     <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">

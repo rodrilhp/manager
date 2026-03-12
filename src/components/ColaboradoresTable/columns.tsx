@@ -40,7 +40,6 @@ export const columns: ColumnDef<Colaborador>[] = [
     {
         accessorKey: "produto",
         header: "Produto",
-        cell: ({ row }) => toTitleCase(row.getValue("produto")),
     },
     {
         accessorKey: "e_mail",

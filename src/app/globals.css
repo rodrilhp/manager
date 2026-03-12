@@ -45,3 +45,57 @@ body {
   margin: 0;
   padding: 0;
 }
+
+.datepicker {
+  position: absolute;
+  width: 280px !important;
+  max-width: 280px !important;
+}
+
+.datepicker > .datepicker-picker {
+  width: 100% !important;
+  max-width: 100% !important;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0px 4px 6px -1px #0000001a;
+  border-color: #e5e5e5;
+}
+
+.datepicker .datepicker-grid {
+  width: 100% !important;
+}
+
+.datepicker .datepicker-grid.w-64 {
+  width: 100% !important;
+}
+
+.datepicker .datepicker-controls button {
+  flex-grow: 1;
+}
+
+.datepicker .datepicker-controls .next-btn {
+  justify-items: center;
+}
+
+.datepicker .datepicker-controls .prev-btn {
+  justify-items: center;
+}
+
+.datepicker .days {
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+}
+
+.datepicker .days-of-week {
+  width: 100% !important;
+  display: flex !important;
+  justify-content: space-around !important;
+}
+
+.datepicker .datepicker-grid {
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr) !important;
+  gap: 6px !important;
+}

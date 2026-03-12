@@ -116,9 +116,12 @@ export function ContratadosTable({ data }: Props) {
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
 
+    const memoizedData = React.useMemo(() => data, [data])
+    const memoizedColumns = React.useMemo(() => contratadosColumns, [])
+
     const table = useReactTable({
-        data,
-        columns: contratadosColumns,
+        data: memoizedData,
+        columns: memoizedColumns,
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),

@@ -1,4 +1,3 @@
-import PageHeader from "@/components/PageHeader";
 import { supabase } from "@/lib/supabase"
 import { Colaborador } from "@/components/ColaboradoresTable/columns"
 import { ContratadosTable } from "@/components/ContratadosTable"
@@ -18,14 +17,6 @@ export default async function ContratadosPage() {
 
     return (
         <div className="w-full animate-fade-in-up min-h-screen pb-12">
-            <PageHeader
-                title="Gestão de Contratados"
-                breadcrumbs={[
-                    { name: "Home", href: "/" },
-                    { name: "Contratados" }
-                ]}
-            />
-
             <div className="mx-auto px-0 mt-6">
                 <div className="rounded-lg">
                     <ContratadosTable data={colaboradores} />

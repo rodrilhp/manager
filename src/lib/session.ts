@@ -1,24 +1,33 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 
-const secretKey = process.env.AUTH_SECRET || "default_dev_secret_do_not_use";
-const encodedKey = new TextEncoder().encode(secretKey);
+if (!process.env.AUTH_SECRET) {
+    throw new Error("AUTH_SECRET precisa ser definido para criptografia de sessão.");
+}
 
-export async function encrypt(payload: any) {
+const encodedKey = new TextEncoder().encode(process.env.AUTH_SECRET);
+
+export async function encrypt(payload: Record<string, unknown>) {
     return new SignJWT(payload)
         .setProtectedHeader({ alg: "HS256" })
         .setIssuedAt()
         .setExpirationTime("4h")
+        .setIssuer("manager-internal")
+        .setAudience("manager-users")
         .sign(encodedKey);
 }
 
 export async function decrypt(session: string | undefined = "") {
+    if (!session) return null;
+
     try {
         const { payload } = await jwtVerify(session, encodedKey, {
             algorithms: ["HS256"],
+            issuer: "manager-internal",
+            audience: "manager-users",
         });
         return payload;
-    } catch (error) {
+    } catch {
         return null;
     }
 }

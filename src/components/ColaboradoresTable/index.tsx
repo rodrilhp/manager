@@ -29,9 +29,12 @@ export function ColaboradoresTable<TData, TValue>({
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [globalFilter, setGlobalFilter] = React.useState("")
 
+    const memoizedData = React.useMemo(() => data, [data])
+    const memoizedColumns = React.useMemo(() => columns, [columns])
+
     const table = useReactTable({
-        data,
-        columns,
+        data: memoizedData,
+        columns: memoizedColumns,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: showPagination ? getPaginationRowModel() : undefined,
         getSortedRowModel: getSortedRowModel(),

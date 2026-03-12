@@ -21,10 +21,6 @@ export default function TopNav({ username }: { username?: string | null }) {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
-    useEffect(() => {
-        setIsDropdownOpen(false);
-    }, [pathname]);
-
     const isAdminMode = pathname.startsWith("/configuracoes")
 
     const normalTabs = [
@@ -38,7 +34,7 @@ export default function TopNav({ username }: { username?: string | null }) {
     const adminTabs = [
         { name: "Home", href: "/" },
         { name: "Colaboradores", href: "/configuracoes" },
-        { name: "Usuários", href: "/configuracoes/usuarios" },
+        { name: "Salários", href: "/configuracoes/salarios" },
     ]
 
     const tabs = isAdminMode ? adminTabs : normalTabs;
@@ -109,6 +105,7 @@ export default function TopNav({ username }: { username?: string | null }) {
                                 <Link
                                     key={tab.name}
                                     href={tab.href}
+                                    onClick={() => setIsDropdownOpen(false)}
                                     className={`
                                         mr-6 py-3 text-sm font-medium transition-colors whitespace-nowrap border-b-2
                                         ${isActive
