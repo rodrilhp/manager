@@ -6,12 +6,13 @@ import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
+  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
   SortingState,
   ColumnFiltersState,
 } from "@tanstack/react-table"
-import { ChevronDown, ChevronUp, Search } from "lucide-react"
+import { ChevronDown, ChevronUp } from "lucide-react"
 
 export type Salario = {
   id: number
@@ -52,12 +53,12 @@ const salarioColumns: ColumnDef<Salario>[] = [
 
 interface Props {
   data: Salario[]
+  pageSize?: number
 }
 
-export function SalariosTable({ data }: Props) {
+export function SalariosTable({ data, pageSize = 20 }: Props) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
-  const [cargoFilter, setCargoFilter] = React.useState("")
 
   const memoizedData = React.useMemo(() => data, [data])
   const memoizedColumns = React.useMemo(() => salarioColumns, [])
@@ -72,24 +73,24 @@ export function SalariosTable({ data }: Props) {
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
+    initialState: {
+      pagination: {
+        pageSize,
+      },
+    },
   })
-
-  React.useEffect(() => {
-    if (cargoFilter) {
-      setColumnFilters([{ id: "cargo", value: cargoFilter }])
-    } else {
-      setColumnFilters([])
-    }
-  }, [cargoFilter])
 
   return (
     <div className="w-full">
+      <div className="flex items-center justify-between gap-3 mb-3">
+        <div className="text-sm text-neutral-500">{table.getRowModel().rows.length} registros</div>
+      </div>
 
-      <div className="rounded-md border border-neutral-200 bg-white shadow-sm overflow-hidden max-h-[40vh]">
-        <div className="overflow-x-auto overflow-y-auto max-h-[40vh]">
-          <table className="w-full text-sm text-left">
+      <div className="rounded-md border border-neutral-200 bg-white shadow-sm overflow-hidden">
+        <div className="overflow-x-auto overflow-y-auto">          <table className="w-full text-sm text-left">
             <thead className="text-xs text-neutral-500 uppercase bg-neutral-50 border-b border-neutral-200 sticky top-0">
               {table.getHeaderGroups().map((headerGroup) => (
                 <tr key={headerGroup.id}>
@@ -136,6 +137,58 @@ export function SalariosTable({ data }: Props) {
               )}
             </tbody>
           </table>
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between gap-2 bg-white border border-neutral-200 rounded-b-md px-3 py-2 text-sm">
+        <div className="flex items-center gap-2">
+          <button
+            className="px-2 py-1 rounded border border-neutral-200 hover:bg-neutral-100 disabled:opacity-50"
+            onClick={() => table.setPageIndex(0)}
+            disabled={!table.getCanPreviousPage()}
+          >
+            {'<<'}
+          </button>
+          <button
+            className="px-2 py-1 rounded border border-neutral-200 hover:bg-neutral-100 disabled:opacity-50"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            {'<'}
+          </button>
+          <span>
+            Página {table.getState().pagination.pageIndex + 1} de {table.getPageCount()}
+          </span>
+          <button
+            className="px-2 py-1 rounded border border-neutral-200 hover:bg-neutral-100 disabled:opacity-50"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            {'>'}
+          </button>
+          <button
+            className="px-2 py-1 rounded border border-neutral-200 hover:bg-neutral-100 disabled:opacity-50"
+            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+            disabled={!table.getCanNextPage()}
+          >
+            {'>>'}
+          </button>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <label className="text-sm text-neutral-600">Exibir</label>
+          <select
+            value={table.getState().pagination.pageSize}
+            onChange={(e) => table.setPageSize(Number(e.target.value))}
+            className="px-2 py-1 border border-neutral-200 rounded-md"
+          >
+            {[10, 20, 30, 40, 50].map((size) => (
+              <option key={size} value={size}>
+                {size}
+              </option>
+            ))}
+          </select>
+          <span className="text-neutral-500">registros por página</span>
         </div>
       </div>
     </div>
